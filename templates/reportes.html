@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-4">Reportes</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-xl font-semibold mb-2">Resumen General</h2>
+        <p>Total de usuarios: {{ total_usuarios }}</p>
+        <p>Usuarios vigentes: {{ usuarios_vigentes }}</p>
+        <p>Gasto total mensual: ${{ "%.2f"|format(gasto_total) }}</p>
+    </div>
+
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-xl font-semibold mb-2">Usuarios por Ciudad</h2>
+        <ul>
+            {% for ciudad, count in usuarios_por_ciudad %}
+            <li>{{ ciudad }}: {{ count }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div class="mt-8">
+    <h2 class="text-2xl font-semibold mb-4">Gráficos</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-white p-4 rounded shadow">
+            <canvas id="usuariosPorCiudadChart"></canvas>
+        </div>
+        <div class="bg-white p-4 rounded shadow">
+            <canvas id="gastosPorCiudadChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Gráfico de usuarios por ciudad
+    const ctxUsuarios = document.getElementById('usuariosPorCiudadChart').getContext('2d');
+    new Chart(ctxUsuarios, {
+        type: 'bar',
+        data: {
+            labels: [{% for ciudad, _ in usuarios_por_ciudad %}'{{ ciudad }}',{% endfor %}],
+            datasets: [{
+                label: 'Usuarios por Ciudad',
+                data: [{% for _, count in usuarios_por_ciudad %}{{ count }},{% endfor %}],
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Aquí puedes agregar más gráficos según sea necesario
+</script>
+{% endblock %}

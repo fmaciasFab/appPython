@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="text-4xl font-bold mb-4">Bienvenido al Sistema de Gestión de Celulares</h1>
+    <p class="text-xl mb-8">Administre fácilmente la información de usuarios y sus dispositivos móviles.</p>
+    <div class="flex justify-center space-x-4">
+        <a href="/usuarios" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+            Ver Usuarios
+        </a>
+        <a href="/reportes" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+            Generar Reportes
+        </a>
+    </div>
+</div>
+{% endblock %}
